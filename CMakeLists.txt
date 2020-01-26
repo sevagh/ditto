@@ -26,7 +26,10 @@ include_directories(src include ${GCEM_DIR}/include)
 add_library(
         stompbox
         src/MathNeon.cpp
-        src/MathNeonLog10.cpp include/stompbox/Window.h)
+        src/MathNeonLog10.cpp
+        src/MirroredMemory.cpp
+        src/MagicRingBuffer.cpp
+)
 
 target_link_libraries(
         stompbox

@@ -72,30 +72,19 @@ namespace detail {
 	constexpr Window<WindowSize> calculate_tukey_window()
 	{
 		auto N = ( float )(WindowSize - 1);
-		auto n_val = ( float )(-1.0F * ((WindowSize / 2))) + 1.0F;
 		float alpha = 0.5F;
+		int width = (int)(gcem::floor(alpha*(N)/2.0F));
+        Window<WindowSize> window = {};
 
-		auto width = alpha * (N / 2.0F);
-
-		Window<WindowSize> window = {};
-		for (size_t n = 0; n < WindowSize; ++n) {
-			if ((n_val >= 0.0F) && (n_val <= width)) {
-				window.data[n] = 1.0F;
-			}
-			else if ((n_val <= 0.0F)
-			         && (n_val >= (-1.0F * width))) {
-				window.data[n] = 1.0F;
-			}
-			else {
-				window.data[n] = 0.5F
-				            * (1.0F
-				               + gcem::cos(
-				                   stompbox::math_neon::PI
-				                   * (((2.0F * n_val) / (alpha * N)) - 1.0F)));
-			}
-
-			n_val = n_val + 1.0F;
-		}
+        for (int n = 0; n <= width; ++n) {
+            window.data[n] = 0.5F * (1.0F + gcem::cos(stompbox::math_neon::PI * (-1.0F + 2.0F*((float)n)/alpha/N)));
+        }
+        for (int n = width+1; n < WindowSize-width-1; ++n) {
+            window.data[n] = 1.0F;
+        }
+        for (int n = WindowSize-width-1; n < WindowSize; ++n) {
+            window.data[n] = 0.5F * (1.0F + gcem::cos(stompbox::math_neon::PI * (-2.0F/alpha + 1.0 + 2.0F*((float)n)/alpha/N)));
+        }
 
 		return window;
 	}

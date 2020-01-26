@@ -6,11 +6,9 @@
 
 namespace stompbox::magic_ring_buffer {
 namespace detail {
-    static constexpr std::size_t FloatSize = sizeof(float);
-
     struct MirroredMemory {
         std::size_t capacity;
-        float *address;
+        char *address;
     };
 
     int init_mirrored_memory(struct MirroredMemory *mem, std::size_t requested_capacity);
@@ -28,8 +26,8 @@ public:
     std::size_t free_count();
     void advance_read_ptr(std::size_t count);
     void advance_write_ptr(std::size_t count);
-    float *write_ptr();
-    float *read_ptr();
+    char *write_ptr();
+    char *read_ptr();
 
 private:
     struct detail::MirroredMemory mem;

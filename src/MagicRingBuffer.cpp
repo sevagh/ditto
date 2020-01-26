@@ -11,7 +11,7 @@ MagicRingBuffer::MagicRingBuffer(std::size_t requested_capacity)
     , read_offset(0)
     , mem(detail::MirroredMemory())
 {
-    int err = detail::init_mirrored_memory(&mem, requested_capacity*detail::FloatSize);
+    int err = detail::init_mirrored_memory(&mem, requested_capacity);
     if (err != 0)
         throw std::runtime_error(std::string("Couldn't init ringbuffer, ") + std::to_string(err));
 
@@ -19,26 +19,26 @@ MagicRingBuffer::MagicRingBuffer(std::size_t requested_capacity)
 }
 
 std::size_t MagicRingBuffer::get_capacity() {
-    return capacity/detail::FloatSize;
+    return capacity;
 }
 
-float *MagicRingBuffer::write_ptr() {
+char *MagicRingBuffer::write_ptr() {
     auto write_load = write_offset.load();
     return mem.address + (write_offset % capacity);
 }
 
-float *MagicRingBuffer::read_ptr() {
+char *MagicRingBuffer::read_ptr() {
     auto read_load = read_offset.load();
     return mem.address + (read_offset % capacity);
 }
 
 void MagicRingBuffer::advance_write_ptr(std::size_t count) {
-    write_offset.fetch_add(count*detail::FloatSize);
+    write_offset.fetch_add(count);
     assert(fill_count() >= 0);
 }
 
 void MagicRingBuffer::advance_read_ptr(std::size_t count) {
-    read_offset.fetch_add(count*detail::FloatSize);
+    read_offset.fetch_add(count);
     assert(fill_count() >= 0);
 }
 
@@ -51,11 +51,11 @@ std::size_t MagicRingBuffer::fill_count() {
     std::size_t count = write_load - read_load;
     assert(count >= 0);
     assert(count <= rb->capacity);
-    return count/detail::FloatSize;
+    return count;
 }
 
 std::size_t MagicRingBuffer::free_count() {
-    return (capacity - fill_count())/detail::FloatSize;
+    return capacity - fill_count();
 }
 
 void MagicRingBuffer::clear() {

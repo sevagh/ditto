@@ -74,7 +74,7 @@ int init_mirrored_memory(struct MirroredMemory *mem, std::size_t requested_capac
         return -6;
     }
 
-    mem->address = (float*)address;
+    mem->address = address;
 
     if (close(fd))
         return -7;

@@ -7,7 +7,6 @@ The goal of stompbox is to house a coherent collection of audio DSP tools specif
 ### Components
 
 * Common math/array/vector operations with NEON
-* Circular buffer
 * HPSS (Harmonic-Percussive Source Separation)
 * STFT/iSTFT
 * Beat tracking and tempo estimation

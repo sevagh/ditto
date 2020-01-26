@@ -27,7 +27,7 @@
   (this is the zlib license)
 */
 
-#include "MathNeon.h"
+#include "stompbox/MathNeon.h"
 #include <arm_neon.h>
 
 #define c_inv_mant_mask ~0x7f800000u

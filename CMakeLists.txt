@@ -7,6 +7,7 @@ set(ANDROID_ABI arm64-v8a)
 set(ANDROID_PLATFORM android-21)
 
 add_definitions(-DANDROID_ABI=arm64-v8a)
+add_definitions(-DANDROID_STL=c++_shared)
 add_definitions(-DCMAKE_TOOLCHAIN_FILE=$(NDK_DIR)/build/cmake/android.toolchain.cmake)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -target aarch64-linux-android24")
@@ -18,14 +19,14 @@ set(NE10_DIR ./thirdparty/Ne10)
 add_subdirectory(${NE10_DIR} ./thirdparty/Ne10)
 include_directories(${NE10_DIR}/inc)
 
-include_directories(src)
+set(GCEM_DIR ./thirdparty/gcem)
+
+include_directories(src include ${GCEM_DIR}/include)
 
 add_library(
         stompbox
-        src/Stompbox.cpp
         src/MathNeon.cpp
-        src/MathNeonLog10.cpp
-)
+        src/MathNeonLog10.cpp include/stompbox/Window.h)
 
 target_link_libraries(
         stompbox
@@ -40,8 +41,10 @@ set(TESTDEPS stompbox gtest gtest_main)
 
 add_executable(
         stompboxtest
-        test/unit_test.cpp
+        test/UnitTests.cpp
 )
+
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++")
 
 target_link_libraries(
         stompboxtest

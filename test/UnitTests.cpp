@@ -1,6 +1,7 @@
 #include "CircularBuffer.h"
 #include "stompbox/MathNeon.h"
 #include "stompbox/MiscUtil.h"
+#include "stompbox/BTrack.h"
 #include "stompbox/Window.h"
 #include <gtest/gtest.h>
 #include <numeric>
@@ -148,4 +149,16 @@ TEST(StompboxMagicRingbufferTest, TestLinearReads)
     ringbuf.advance_read_ptr(1024*4);
 
     EXPECT_EQ(ringbuf.fill_count(), 4);
+}
+
+TEST(StompboxBTrack, BTrackBasic)
+{
+    auto btrack = stompbox::btrack::BTrack<1024, 512>(
+            44100,
+            stompbox::onset_detection::OnsetDetectionFunctionType::EnergyEnvelope);
+
+    std::vector<float> fake_vals(1024);
+    std::iota(fake_vals.begin(), fake_vals.end(), 0.0F);
+
+    btrack.processCurrentFrame(fake_vals);
 }

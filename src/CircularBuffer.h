@@ -14,7 +14,7 @@ namespace stompbox_private::circular_buffer {
 
         CircularBuffer() : writeIndex(0) {};
 
-        float operator[](std::size_t i)
+        float &operator[](std::size_t i)
         {
             return buffer[(i + writeIndex) & (N-1)];
         }

@@ -57,7 +57,7 @@ private:
 		beatCounter--;
 		beatDueInFrame = false;
 
-		onsetDF.addSampleToEnd(sample);
+		onsetDF.append(sample);
 		updateCumulativeScore(sample);
 
 		if (m0 == 0) {
@@ -105,7 +105,7 @@ private:
 
 		latestCumulativeScoreValue
 		    = ((1.0F - Alpha) * odfSample) + (Alpha * max);
-		cumulativeScore.addSampleToEnd(latestCumulativeScoreValue);
+		cumulativeScore.append(latestCumulativeScoreValue);
 	};
 
 	void predictBeat()

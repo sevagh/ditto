@@ -36,45 +36,51 @@ target_link_libraries(
         NE10
 )
 
-# test and bench binaries below
+option(STOMPBOX_TESTS "Build stompbox test binaries" ON)
 
-# for google/benchmark
-set(CMAKE_CROSSCOMPILING 1)
-set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
-set(BENCHMARK_ENABLE_TESTING OFF)
-set(CMAKE_BUILD_TYPE Release)
-set(RUN_HAVE_STD_REGEX 0)
-set(RUN_HAVE_POSIX_REGEX 0)
-set(RUN_HAVE_GNU_POSIX_REGEX 0)
-set(RUN_HAVE_STEADY_CLOCK 0)
-set(BENCH_DIR ./thirdparty/google-benchmark)
-add_subdirectory(${BENCH_DIR} ./thirdparty/google-benchmark)
-include_directories(${BENCH_DIR}/include)
+if (STOMPBOX_TESTS)
+    # test and bench binaries below
 
-set(GOOGLETEST_DIR ./thirdparty/googletest)
-add_subdirectory(${GOOGLETEST_DIR} ./thirdparty/googletest)
-include_directories(${GOOGLETEST_DIR}/include)
+    # for google/benchmark
+    set(CMAKE_CROSSCOMPILING 1)
+    set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
+    set(BENCHMARK_ENABLE_TESTING OFF)
+    set(CMAKE_BUILD_TYPE Release)
+    set(RUN_HAVE_STD_REGEX 0)
+    set(RUN_HAVE_POSIX_REGEX 0)
+    set(RUN_HAVE_GNU_POSIX_REGEX 0)
+    set(RUN_HAVE_STEADY_CLOCK 0)
+    set(BENCH_DIR ./thirdparty/google-benchmark)
+    add_subdirectory(${BENCH_DIR} ./thirdparty/google-benchmark)
+    include_directories(${BENCH_DIR}/include)
 
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++")
-set(TESTDEPS stompbox gtest gtest_main)
-set(BENCHDEPS stompbox benchmark_main)
+    set(GOOGLETEST_DIR ./thirdparty/googletest)
+    add_subdirectory(${GOOGLETEST_DIR} ./thirdparty/googletest)
+    include_directories(${GOOGLETEST_DIR}/include)
 
-add_executable(
-        stompboxtest
-        test/UnitTests.cpp
-)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++")
+    set(TESTDEPS stompbox gtest gtest_main)
+    set(BENCHDEPS stompbox benchmark_main)
 
-add_executable(
-        stompboxbench
-        test/Benchmarks.cpp
-)
+    add_executable(
+            stompboxtest
+            test/UnitTests.cpp
+    )
 
-target_link_libraries(
-        stompboxtest
-        ${TESTDEPS}
-)
+    add_executable(
+            stompboxbench
+            test/Benchmarks.cpp
+    )
 
-target_link_libraries(
-        stompboxbench
-        ${BENCHDEPS}
-)
+    target_link_libraries(
+            stompboxtest
+            ${TESTDEPS}
+    )
+
+    target_link_libraries(
+            stompboxbench
+            ${BENCHDEPS}
+    )
+else()
+    message("what the fuck")
+endif()

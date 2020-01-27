@@ -50,7 +50,7 @@ std::size_t MagicRingBuffer::fill_count() {
 
     std::size_t count = write_load - read_load;
     assert(count >= 0);
-    assert(count <= rb->capacity);
+    assert(count <= capacity);
     return count;
 }
 

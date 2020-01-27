@@ -10,7 +10,7 @@ namespace stompbox_private::circular_buffer {
         static_assert(stompbox::detail::misc_util::is_power_of_two(N));
 
     public:
-        std::array<float, N> buffer;
+        std::array<float, N> buffer = {};
 
         CircularBuffer() : writeIndex(0) {};
 

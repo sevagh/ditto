@@ -70,3 +70,76 @@ void stompbox::math_neon::ThresholdUnder(std::vector<float>& vals, float thresho
 			vals[i + 3] = 0;
 	}
 }
+
+void stompbox::math_neon::NormalizeArray(float* x, size_t N)
+{
+    float sum = 0.0F;
+
+    for (size_t i = 0; i < N; i++) {
+        if (x[i] > 0) {
+            sum += x[i];
+        }
+    }
+
+    if (sum > 0) {
+        for (size_t i = 0; i < N; i++) {
+            x[i] /= sum;
+        }
+    }
+};
+
+void stompbox::math_neon::AdaptiveThreshold(float* x, size_t N)
+{
+    size_t i = 0;
+    size_t k = 0;
+    size_t t = 0;
+    float x_thresh[N];
+
+    size_t p_post = 7;
+    size_t p_pre = 8;
+
+    t = std::min(
+        N, p_post); // what is smaller, p_post or df size. This is to
+    // avoid accessing outside of arrays
+
+    // find threshold for first 't' samples, where a full average cannot be
+    // computed yet
+    for (i = 0; i <= t; ++i) {
+        k = std::min((i + p_pre), N);
+        x_thresh[i] = stompbox::math_neon::CalculateMeanOfArray(x, 1, k);
+    }
+    // find threshold for bulk of samples across a moving average from
+    // [i-p_pre,i+p_post]
+    for (i = t + 1; i < N - p_post; ++i) {
+        x_thresh[i] = stompbox::math_neon::CalculateMeanOfArray(x, i - p_pre, i + p_post);
+    }
+
+    // for last few samples calculate threshold, again, not enough samples
+    // to do as above
+    for (i = N - p_post; i < N; ++i) {
+        k = std::max<size_t>(i - p_post, 1);
+        x_thresh[i] = stompbox::math_neon::CalculateMeanOfArray(x, k, N);
+    }
+
+    // subtract the threshold from the detection function and check that it
+    // is not less than 0
+    for (i = 0; i < N; ++i) {
+        x[i] = x[i] - x_thresh[i];
+        if (x[i] < 0) {
+            x[i] = 0;
+        }
+    }
+};
+
+float stompbox::math_neon::CalculateMeanOfArray(const float* array, size_t start, size_t end)
+{
+    float sum = 0;
+    size_t length = end - start;
+
+    // find sum
+    for (size_t i = start; i < end; i++) {
+        sum = sum + array[i];
+    }
+
+    return (length > 0) ? sum / length : 0;
+};

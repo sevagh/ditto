@@ -102,22 +102,49 @@ namespace detail {
 
 } // namespace detail
 
-template <std::size_t WindowSize>
-constexpr Window HammingWindow = detail::calculate_hamming_window<WindowSize>();
+enum WindowType
+{
+    RectangularWindow,
+    HanningWindow,
+    HammingWindow,
+    BlackmanWindow,
+    TukeyWindow
+};
 
 template <std::size_t WindowSize>
-constexpr Window HanningWindow = detail::calculate_hanning_window<WindowSize>();
+constexpr Window Hamming = detail::calculate_hamming_window<WindowSize>();
 
 template <std::size_t WindowSize>
-constexpr Window BlackmanWindow
+constexpr Window Hanning = detail::calculate_hanning_window<WindowSize>();
+
+template <std::size_t WindowSize>
+constexpr Window Blackman
     = detail::calculate_blackman_window<WindowSize>();
 
 template <std::size_t WindowSize>
-constexpr Window TukeyWindow = detail::calculate_tukey_window<WindowSize>();
+constexpr Window Tukey = detail::calculate_tukey_window<WindowSize>();
 
 template <std::size_t WindowSize>
-constexpr Window RectangularWindow
+constexpr Window Rectangular
     = detail::calculate_rectangular_window<WindowSize>();
+
+template <std::size_t WindowSize, WindowType windowType>
+constexpr Window<WindowSize> get_window() {
+    switch (windowType) {
+    case HammingWindow:
+        return Hamming<WindowSize>;
+    case HanningWindow:
+        return Hanning<WindowSize>;
+    case BlackmanWindow:
+        return Blackman<WindowSize>;
+    case TukeyWindow:
+        return Tukey<WindowSize>;
+    case RectangularWindow:
+        return Rectangular<WindowSize>;
+    default:
+        return Hanning<WindowSize>;
+    }
+}
 } // namespace stompbox::window
 
 #endif // STOMPBOX_WINDOW_H

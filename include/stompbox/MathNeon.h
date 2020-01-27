@@ -15,6 +15,12 @@ namespace stompbox::math_neon {
 
 	void ThresholdUnder(std::vector<float>&, float);
 
+    void NormalizeArray(float* x, size_t N);
+
+    void AdaptiveThreshold(float* x, size_t N);
+
+    float CalculateMeanOfArray(const float* array, size_t start, size_t end);
+
 	float32x4_t log10(float32x4_t);
 } // namespace stompbox::math_neon
 

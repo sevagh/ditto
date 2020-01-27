@@ -29,7 +29,7 @@ TEST(StompboxCircularBufferTests, TestReadAndWrite)
 
 TEST(StompboxWindow, Hamming)
 {
-	auto window = stompbox::window::HammingWindow<10>;
+	auto window = stompbox::window::Hamming<10>;
 
 	// numpy.hamming(10):
 	std::array<float, 10> expected{
@@ -42,7 +42,7 @@ TEST(StompboxWindow, Hamming)
 
 TEST(StompboxWindow, Hanning)
 {
-	auto window = stompbox::window::HanningWindow<10>;
+	auto window = stompbox::window::Hanning<10>;
 
 	// numpy.hanning(10):
 	std::array<float, 10> expected{
@@ -55,7 +55,7 @@ TEST(StompboxWindow, Hanning)
 
 TEST(StompboxWindow, Blackman)
 {
-	auto window = stompbox::window::BlackmanWindow<10>;
+	auto window = stompbox::window::Blackman<10>;
 
 	// numpy.blackman(10):
 	std::array<float, 10> expected{
@@ -69,7 +69,7 @@ TEST(StompboxWindow, Blackman)
 
 TEST(StompboxWindow, Tukey)
 {
-	auto window = stompbox::window::TukeyWindow<10>;
+	auto window = stompbox::window::Tukey<10>;
 
 	// scipy.signal.windows.tukey(10):
 	std::array<float, 10> expected{0., 0.41317591, 0.96984631, 1.,         1.,
@@ -81,7 +81,7 @@ TEST(StompboxWindow, Tukey)
 
 TEST(StompboxWindow, Rectangular)
 {
-	auto window = stompbox::window::RectangularWindow<10>;
+	auto window = stompbox::window::Rectangular<10>;
 
 	std::array<float, 10> expected{};
 	std::fill(expected.begin(), expected.end(), 1.0F);

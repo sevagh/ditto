@@ -4,7 +4,7 @@ project(stompbox)
 set(CMAKE_CXX_STANDARD 17)
 set(NDK_DIR $(HOME)/Android/Sdk/ndk/20.1.5948944)
 set(ANDROID_ABI arm64-v8a)
-set(ANDROID_PLATFORM android-21)
+set(ANDROID_PLATFORM android-24)
 
 add_definitions(-DANDROID_ABI=arm64-v8a)
 add_definitions(-DANDROID_STL=c++_shared)

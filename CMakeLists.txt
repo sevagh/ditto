@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(stompbox)
+project(ditto)
 
 set(CMAKE_CXX_STANDARD 17)
 set(NDK_DIR ${HOME}/Android/Sdk/ndk/20.1.5948944)
@@ -13,34 +13,17 @@ add_definitions(-DCMAKE_TOOLCHAIN_FILE=${NDK_DIR}/build/cmake/android.toolchain.
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -target aarch64-linux-android24")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -target aarch64-linux-android24")
 
-set(NE10_ANDROID_TARGET_ARCH "aarch64")
-set(ANDROID_API_LEVEL 24)
-set(NE10_DIR ./thirdparty/Ne10)
-add_subdirectory(${NE10_DIR} ./thirdparty/Ne10)
-include_directories(${NE10_DIR}/inc)
-
-set(GCEM_DIR ./thirdparty/gcem)
-
-include_directories(src include ${GCEM_DIR}/include)
-
 add_library(
-        stompbox
-        src/MathNeon.cpp
-        src/MathNeonLog10.cpp
+        ditto
         src/MirroredMemory.cpp
         src/MagicRingBuffer.cpp
 )
 
-target_link_libraries(
-        stompbox
-        NE10
-)
+include_directories(src)
 
-option(STOMPBOX_TESTS "Build stompbox test binaries" ON)
+option(DITTO_TESTS "Build ditto test binaries" ON)
 
-if (STOMPBOX_TESTS)
-    # test and bench binaries below
-
+if (DITTO_TESTS)
     # for google/benchmark
     set(CMAKE_CROSSCOMPILING 1)
     set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
@@ -59,28 +42,26 @@ if (STOMPBOX_TESTS)
     include_directories(${GOOGLETEST_DIR}/include)
 
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++")
-    set(TESTDEPS stompbox gtest gtest_main)
-    set(BENCHDEPS stompbox benchmark_main)
+    set(TESTDEPS ditto gtest gtest_main)
+    set(BENCHDEPS ditto benchmark_main)
 
     add_executable(
-            stompboxtest
+            dittotest
             test/UnitTests.cpp
     )
 
     add_executable(
-            stompboxbench
+            dittobench
             test/Benchmarks.cpp
     )
 
     target_link_libraries(
-            stompboxtest
+            dittotest
             ${TESTDEPS}
     )
 
     target_link_libraries(
-            stompboxbench
+            dittobench
             ${BENCHDEPS}
     )
-else()
-    message("what the fuck")
 endif()

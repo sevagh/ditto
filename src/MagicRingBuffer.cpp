@@ -1,4 +1,4 @@
-#include "stompbox/MagicRingBuffer.h"
+#include "Ditto.h"
 #include <cassert>
 #include <cstddef>
 #include <cstdlib>

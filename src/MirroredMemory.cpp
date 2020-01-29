@@ -1,4 +1,4 @@
-#include "stompbox/MagicRingBuffer.h"
+#include "Ditto.h"
 #include <asm/mman.h>
 #include <mutex>
 #include <sys/mman.h>
@@ -26,8 +26,8 @@ int init_mirrored_memory(struct MirroredMemory *mem, std::size_t requested_capac
 
     size_t actual_capacity = ceil_dbl_to_size_t(requested_capacity / (double)page_size) * page_size;
 
-    char shm_path[] = "/dev/shm/stompbox-XXXXXX";
-    char tmp_path[] = "/data/local/tmp/stompbox-XXXXXX";
+    char shm_path[] = "/dev/shm/ditto-XXXXXX";
+    char tmp_path[] = "/data/local/tmp/ditto-XXXXXX";
     char *chosen_path;
 
     int fd = mkstemp(shm_path);

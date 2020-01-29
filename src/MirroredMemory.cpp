@@ -20,7 +20,7 @@ static inline size_t ceil_dbl_to_size_t(double x) {
     return truncation + (truncation < x);
 }
 
-namespace stompbox::magic_ring_buffer::detail {
+namespace ditto::detail {
 int init_mirrored_memory(struct MirroredMemory *mem, std::size_t requested_capacity) {
     page_size_init();
 
@@ -90,4 +90,4 @@ void deinit_mirrored_memory(struct MirroredMemory *mem) {
     assert(!err);
     mem->address = NULL;
 }
-} // namespace stompbox::magic_ring_buffer::detail
+} // namespace ditto::detail

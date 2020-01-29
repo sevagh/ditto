@@ -1,17 +1,8 @@
-# stompbox
+# ditto
 
-stompbox is my opinionated, personal library of audio, music, and DSP utils for Android devices.
+Ditto is named after the TC Electronics Ditto looper pedal.
 
-The goal of stompbox is to house a coherent collection of audio DSP tools specifically optimized for ARMv8 Aarch64 processors on modern Android devices using NEON SIMD instructions.
-
-### Components
-
-* Common math/array/vector operations with NEON
-* HPSS (Harmonic-Percussive Source Separation)
-* STFT/iSTFT
-* Beat tracking and tempo estimation
-* Onset detection
-* Window functions
+It's an Android version of the magic ringbuffer, intended for use in low-latency audio apps using Oboe.
 
 ### Build and test
 

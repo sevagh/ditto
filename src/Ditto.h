@@ -1,10 +1,10 @@
-#ifndef STOMPBOX_MAGIC_RING_BUFFER_H
-#define STOMPBOX_MAGIC_RING_BUFFER_H
+#ifndef DITTO_MAGIC_RING_BUFFER_H
+#define DITTO_MAGIC_RING_BUFFER_H
 
 #include <atomic>
 #include <cstddef>
 
-namespace stompbox::magic_ring_buffer {
+namespace ditto {
 namespace detail {
     struct MirroredMemory {
         std::size_t capacity;
@@ -36,6 +36,6 @@ private:
     std::atomic_uint64_t write_offset;
     std::atomic_uint64_t read_offset;
 };
-} // namespace stompbox::magic_ring_buffer
+} // namespace ditto
 
-#endif /* STOMPBOX_MAGIC_RING_BUFFER_H */
+#endif /* DITTO_MAGIC_RING_BUFFER_H */

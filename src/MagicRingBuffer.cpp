@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace stompbox::magic_ring_buffer {
+namespace ditto {
 MagicRingBuffer::MagicRingBuffer(std::size_t requested_capacity)
     : write_offset(0)
     , read_offset(0)
@@ -66,4 +66,4 @@ MagicRingBuffer::~MagicRingBuffer()
 {
     detail::deinit_mirrored_memory(&mem);
 }
-} // namespace stompbox::magic_ring_buffer
+} // namespace ditto

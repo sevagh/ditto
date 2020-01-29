@@ -49,12 +49,13 @@ class OnsetDetectionFunction {
 	static_assert(stompbox::detail::misc_util::is_half(FrameSize, HopSize));
 
 public:
-	OnsetDetectionFunction() : fftCfg(ne10_fft_alloc_r2c_float32(FrameSize))
-        , t(ComplexSpectralDifferenceHWR)
-        , prevEnergySum(0.0F) {};
+	OnsetDetectionFunction()
+        : OnsetDetectionFunction(ComplexSpectralDifferenceHWR)
+    {};
 
-	explicit OnsetDetectionFunction(OnsetDetectionFunctionType t) : fftCfg(ne10_fft_alloc_r2c_float32(FrameSize))
-        , t(t)
+	explicit OnsetDetectionFunction(OnsetDetectionFunctionType t)
+        : t(t)
+        , fftCfg(ne10_fft_alloc_r2c_float32(FrameSize))
         , prevEnergySum(0.0F){
 	};
 

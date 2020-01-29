@@ -20,7 +20,6 @@ private:
 	static constexpr float Tightness = 5.0F;
 	static constexpr float Alpha = 0.1F;
 	static constexpr float Epsilon = 0.0001F;
-	static constexpr float OnsetThreshold = 100.0F;
 
 	int sampleRate;
 
@@ -331,9 +330,9 @@ public:
 	    int sampleRate,
 	    stompbox::onset_detection::OnsetDetectionFunctionType onsetType)
 	    : sampleRate(sampleRate)
-	    , acfFFT(ne10_fft_alloc_c2c_float32_neon(FFTLengthForACFCalculation))
 	    , odf(stompbox::onset_detection::OnsetDetectionFunction<FrameSize, HopSize>(
 	          onsetType))
+        , acfFFT(ne10_fft_alloc_c2c_float32_neon(FFTLengthForACFCalculation))
 	    , tempoToLagFactor(60.0F * (( float )sampleRate) / ( float )HopSize)
 	    , latestCumulativeScoreValue(0.0F)
 	    , beatPeriod(roundf(
@@ -364,9 +363,7 @@ public:
 	void processCurrentFrame(std::vector<float> samples)
 	{
 		float sample = odf.calculate_sample(samples);
-		if (sample > OnsetThreshold) {
-			processOnsetDetectionFunctionSample(sample);
-		} // discard low onsets
+        processOnsetDetectionFunctionSample(sample);
 	};
 };
 } // namespace stompbox::btrack
